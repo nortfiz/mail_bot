@@ -15,7 +15,7 @@ def get_first_news():
     soup = BeautifulSoup(r.text, "lxml")
 
     articles_cards = soup.find_all("table", class_="table-schedule")
-
+####
     for article in articles_cards:
         article_title = article.find("tr", vl="14.11.2022").text.strip()
         article_desc = article.find("tr", vl="14.11.2022").find("td").text.strip()
