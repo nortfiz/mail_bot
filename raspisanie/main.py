@@ -1,8 +1,8 @@
 import requests
 import json
 from bs4 import BeautifulSoup
-from datetime import datetime
-import time
+
+
 
 def get_data():
     headers = {
@@ -13,39 +13,34 @@ def get_data():
     url = "https://sb.bsu.by/raspisanie/map-902_sa.xml"
     response = requests.get(url=url, headers=headers)
     soup = BeautifulSoup(response.text, "lxml")
+    timetable_dict = {}
 
+    timetable = soup.find("tbody").find_all("tr", vl="14.11.2022")
 
-    # raspisanie_days = soup.find("div", class_="schedule-days").find_all("span", vl="17.10.2022")
-    # raspisanie = soup.find("tbody").find_all("tr", vl="17.10.2022")
-    # rasp_days_select = soup.find("td", class_="head-date>18.10.2022")
+    for i in range(30):
 
-    select_days = soup.find_all("td", class_="head-date")
-    days = soup.find_all(select_days)
+        timetable_title = timetable[i].text
+        print(timetable_title)
+        timetable_dict["1"] = {
+            # "timetable_date": timetable_date,
+            "timetable_title": timetable_title
+        }
+        with open("timetable_dict.json", "w") as file:
+            json.dump(timetable_dict, file, indent=2, ensure_ascii=False)
 
-    print(days)
+        # try:
+        #     timetable_date = timetable[0].text
+        # except:
+        #     timetable_date = "rqwe"
 
-    # page_count = soup.find("div", class_="schedule-days").find_all("span")[-1].text
-
-    # for page in range (1, page_count +1):
-    #     class_=f"select={page}"
-
-        # response = requests.get(url=url,headers=headers)
-        # soup =BeautifulSoup(response.text, "lxml")
-        # books_items = soup.find("table", class_="table-schedule").find_all("tr")
-        #
-        # for bi in books_items:
-        #     book_data = bi.find_all("td")
-        #
-        #     try:
-        #         book_title = book_data[0].find("td").text.strip()
-        #     except:
-        #         print("NO")
-        #
-        #     print(book_data)
-
+        # try:
+        #     timetable_title = timetable[i].text
+        # except:
+        #     timetable_title = "qwe"
 
 def main():
     get_data()
+
 
 if __name__ == '__main__':
     main()
