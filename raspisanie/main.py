@@ -5,6 +5,7 @@ from pprint import pprint
 
 
 
+
 def get_data():
     headers = {
         "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36",
@@ -16,9 +17,10 @@ def get_data():
     soup = BeautifulSoup(response.text, "lxml")
     timetable_dict = {}
 
-    timetable = soup.find("tbody").find_all("tr", vl="28.11.2022")
+    timetable = soup.find("tbody").find_all("tr", vl="21.11.2022")
+
     k = 1
-    for i in range(19):
+    for i in range(21):
         id = timetable[i].text
 
         timetable_dict[k] = {
