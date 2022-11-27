@@ -22,6 +22,7 @@ async def start(message: types.Message):
     keyboard.add(*start_buttons)
 
     await message.answer("Расписание", reply_markup=keyboard)
+    # test
 
 @dp.message_handler(Text(equals="Расписание"))
 async def timetable(message: types.Message):
