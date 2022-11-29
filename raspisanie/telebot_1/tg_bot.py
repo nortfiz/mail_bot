@@ -22,7 +22,6 @@ async def start(message: types.Message):
     keyboard.add(*start_buttons)
 
     await message.answer("Расписание", reply_markup=keyboard)
-    # test
 
 @dp.message_handler(Text(equals="Расписание"))
 async def timetable(message: types.Message):
@@ -30,7 +29,7 @@ async def timetable(message: types.Message):
         timetable_dict = json.load(file)
 
     for k, v in (timetable_dict.items()):
-        timetable_message = f"{hcode(v['timetable_title'])}"
+        timetable_message = f"{hbold(v['timetable_title'])}"
 
         await message.answer(timetable_message)
 
@@ -46,9 +45,10 @@ async def data_time(message: types.Message):
         url = "https://sb.bsu.by/raspisanie/map-902_sa.xml"
         response = requests.get(url=url, headers=headers)
         soup = BeautifulSoup(response.text, "lxml")
+
         timetable = soup.find('div', class_="sw-result")
 
-        r = "Дата обновления 29.11.2022 11:08"
+        r = "Дата обновления 22.11.2022 16:58"
         text_find = timetable.find(text=r)
         if text_find == r:
             await message.answer(r, disable_notification=True, disable_web_page_preview=True)
@@ -72,7 +72,7 @@ async def date_update():
 
         timetable = soup.find('div', class_="sw-result")
 
-        r = "Дата обновления 29.11.2022 11:08"
+        r = "Дата обновления 16.11.2022 16:28"
         text_find = timetable.find(text=r)
         if text_find == r:
             await bot.send_message(egor_id, r, disable_notification=True, disable_web_page_preview=True)
@@ -169,7 +169,7 @@ async def callback_kb_data(callback: types.CallbackQuery) -> None:
 
     timetable = soup.find("tbody").find_all("tr", vl="05.12.2022")
     k = 1
-    for i in range(18):
+    for i in range(19):
         id = timetable[i].text
 
         timetable_dict[k] = {
