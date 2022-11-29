@@ -45,7 +45,7 @@ def update_date():
     timetable = soup.find('div', class_="schedule-days").find_all("span")
 
     k = 1
-    for q in range(14):
+    for q in range(15):
         date_update = timetable[q].text
         date_now[k] = {
             'date_now': date_update
@@ -53,6 +53,7 @@ def update_date():
         k +=1
     with open("timetable_date.json", "w") as file:
         json.dump(date_now, file, indent=1, sort_keys=True, ensure_ascii=False)
+        print(date_now)
 
 def main():
     get_data()

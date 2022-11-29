@@ -47,9 +47,7 @@ async def data_time(message: types.Message):
         response = requests.get(url=url, headers=headers)
         soup = BeautifulSoup(response.text, "lxml")
 
-        timetable = soup.find('div', class_="sw-result")
-
-        r = "Дата обновления 22.11.2022 16:58"
+        r = "Дата обновления 29.11.2022 11:08"
         text_find = timetable.find(text=r)
         if text_find == r:
             await message.answer(r, disable_notification=True, disable_web_page_preview=True)
@@ -73,7 +71,7 @@ async def date_update():
 
         timetable = soup.find('div', class_="sw-result")
 
-        r = "Дата обновления 16.11.2022 16:28"
+        r = "Дата обновления 29.11.2022 11:08"
         text_find = timetable.find(text=r)
         if text_find == r:
             await bot.send_message(egor_id, r, disable_notification=True, disable_web_page_preview=True)
@@ -170,7 +168,7 @@ async def callback_kb_data(callback: types.CallbackQuery) -> None:
 
     timetable = soup.find("tbody").find_all("tr", vl="05.12.2022")
     k = 1
-    for i in range(19):
+    for i in range(18):
         id = timetable[i].text
 
         timetable_dict[k] = {
