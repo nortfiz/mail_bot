@@ -17,14 +17,14 @@ dp = Dispatcher(bot)
 cb = CallbackData('kb_data', 'action')
 @dp.message_handler(commands="start")
 async def start(message: types.Message):
-    start_buttons = ["Расписание", "Выберите начало недели", "Дата обновления"]
+    start_buttons = ["Текущая неделя", "Выберите начало недели", "Дата обновления"]
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
     keyboard.add(*start_buttons)
 
     await message.answer("Расписание", reply_markup=keyboard)
     # test
 
-@dp.message_handler(Text(equals="Расписание"))
+@dp.message_handler(Text(equals="Текущая неделя"))
 async def timetable(message: types.Message):
     with open("timetable_dict.json", "r") as file:
         timetable_dict = json.load(file)
@@ -48,14 +48,14 @@ async def data_time(message: types.Message):
         soup = BeautifulSoup(response.text, "lxml")
         timetable = soup.find('div', class_="sw-result")
 
-        r = "Дата обновления 29.11.2022 11:08"
+        r = "Дата обновления 12.12.2022 12:20"
         text_find = timetable.find(text=r)
         if text_find == r:
             await message.answer(r, disable_notification=True, disable_web_page_preview=True)
             # await bot.send_message(anna_id, r, disable_notification=True, disable_web_page_preview=True)
             break
         else:
-            await bot.send_message(egor_id, "Please, update timetable!!!")
+            await message.answer("Please, update timetable!!!")
             # await bot.send_message(anna_id, "Please, update timetable!!!")
             break
 
@@ -72,7 +72,7 @@ async def date_update():
 
         timetable = soup.find('div', class_="sw-result")
 
-        r = "Дата обновления 29.11.2022 11:08"
+        r = "Дата обновления 07.12.2022 12:38"
         text_find = timetable.find(text=r)
         if text_find == r:
             await bot.send_message(egor_id, r, disable_notification=True, disable_web_page_preview=True)
@@ -168,6 +168,97 @@ async def callback_kb_data(callback: types.CallbackQuery) -> None:
     timetable_dict = {}
 
     timetable = soup.find("tbody").find_all("tr", vl="05.12.2022")
+    k = 1
+    for i in range(18):
+        id = timetable[i].text
+
+        timetable_dict[k] = {
+            "timetable_title": id
+        }
+        k += 1
+
+    with open("timetable_dict_date.json", "w") as file:
+        json.dump(timetable_dict, file, indent=1, sort_keys=True, ensure_ascii=False)
+    with open("timetable_dict_date.json", "r") as file:
+        timetable_dict = json.load(file)
+
+    for k, v in (timetable_dict.items()):
+        timetable_message = f"{hcode(v['timetable_title'])}"
+        await callback.message.answer(timetable_message)
+
+@dp.callback_query_handler(lambda callback_query: callback_query.data == '12.12.2022')
+async def callback_kb_data(callback: types.CallbackQuery) -> None:
+    headers = {
+        "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36",
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"
+    }
+
+    url = "https://sb.bsu.by/raspisanie/map-902_sa.xml"
+    response = requests.get(url=url, headers=headers)
+    soup = BeautifulSoup(response.text, "lxml")
+    timetable_dict = {}
+
+    timetable = soup.find("tbody").find_all("tr", vl="12.12.2022")
+    k = 1
+    for i in range(20):
+        id = timetable[i].text
+
+        timetable_dict[k] = {
+            "timetable_title": id
+        }
+        k += 1
+
+    with open("timetable_dict_date.json", "w") as file:
+        json.dump(timetable_dict, file, indent=1, sort_keys=True, ensure_ascii=False)
+    with open("timetable_dict_date.json", "r") as file:
+        timetable_dict = json.load(file)
+
+    for k, v in (timetable_dict.items()):
+        timetable_message = f"{hcode(v['timetable_title'])}"
+        await callback.message.answer(timetable_message)
+@dp.callback_query_handler(lambda callback_query: callback_query.data == '19.12.2022')
+async def callback_kb_data(callback: types.CallbackQuery) -> None:
+    headers = {
+        "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36",
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"
+    }
+
+    url = "https://sb.bsu.by/raspisanie/map-902_sa.xml"
+    response = requests.get(url=url, headers=headers)
+    soup = BeautifulSoup(response.text, "lxml")
+    timetable_dict = {}
+
+    timetable = soup.find("tbody").find_all("tr", vl="19.12.2022")
+    k = 1
+    for i in range(19):
+        id = timetable[i].text
+
+        timetable_dict[k] = {
+            "timetable_title": id
+        }
+        k += 1
+
+    with open("timetable_dict_date.json", "w") as file:
+        json.dump(timetable_dict, file, indent=1, sort_keys=True, ensure_ascii=False)
+    with open("timetable_dict_date.json", "r") as file:
+        timetable_dict = json.load(file)
+
+    for k, v in (timetable_dict.items()):
+        timetable_message = f"{hcode(v['timetable_title'])}"
+        await callback.message.answer(timetable_message)
+@dp.callback_query_handler(lambda callback_query: callback_query.data == '26.12.2022')
+async def callback_kb_data(callback: types.CallbackQuery) -> None:
+    headers = {
+        "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36",
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"
+    }
+
+    url = "https://sb.bsu.by/raspisanie/map-902_sa.xml"
+    response = requests.get(url=url, headers=headers)
+    soup = BeautifulSoup(response.text, "lxml")
+    timetable_dict = {}
+
+    timetable = soup.find("tbody").find_all("tr", vl="26.12.2022")
     k = 1
     for i in range(18):
         id = timetable[i].text

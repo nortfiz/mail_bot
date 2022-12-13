@@ -18,10 +18,10 @@ def get_data():
     soup = BeautifulSoup(response.text, "lxml")
     timetable_dict = {}
 
-    timetable = soup.find("tbody").find_all("tr", vl="21.11.2022")
+    timetable = soup.find("tbody").find_all("tr", vl="12.12.2022")
 
     k = 1
-    for i in range(21):
+    for i in range(20):
         id = timetable[i].text
 
         timetable_dict[k] = {
@@ -45,7 +45,7 @@ def update_date():
     timetable = soup.find('div', class_="schedule-days").find_all("span")
 
     k = 1
-    for q in range(15):
+    for q in range(18):
         date_update = timetable[q].text
         date_now[k] = {
             'date_now': date_update
@@ -53,7 +53,6 @@ def update_date():
         k +=1
     with open("timetable_date.json", "w") as file:
         json.dump(date_now, file, indent=1, sort_keys=True, ensure_ascii=False)
-        print(date_now)
 
 def main():
     get_data()
