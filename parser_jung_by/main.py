@@ -10,7 +10,7 @@ def get_first_news():
         "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36"
     }
 
-    url = "https://jung-pro.ru/serii/jung-a-550/"
+    url = "https://jung-pro.ru/products/ramki-jung-ac581ch.html"
     r = requests.get(url=url, headers=headers)
 
     soup = BeautifulSoup(r.text, "lxml")
