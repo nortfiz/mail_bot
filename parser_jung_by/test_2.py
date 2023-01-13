@@ -1,25 +1,33 @@
-
+from selenium import webdriver
+from selenium.webdriver.common.by import By
 import json
 from bs4 import BeautifulSoup
+import pandas
+
 
 def get_janga_prod_test():
-    g = 8
-    with open(f"html/page_source_{g}_jung-a-creation.html") as file:
-        src = file.read()
-
-    soup = BeautifulSoup(src, "lxml")
-    product_cards = soup.find_all("div", class_="product-wrap")
-    product_dict={}
-    for product in product_cards:
-        product_other = product.find_all("td", class_="table-col introtext-col")
-        y = len(product_other)
-        for q in range (y):
-            product_other[q] = product.find_all("td", class_="table-col introtext-col")[q]
-            print(product_other[0].text.strip())
+    pandas.read_json("json/page_source_2_jung-a-creation.json").to_excel("test.xlsx")
+    # g = 6
+    # with open(f"json/page_source_all_jung-a-creation.json") as file:
+    #     src = file.read()
+    #
+    # soup = BeautifulSoup(src, "lxml")
+    # product_cards = soup.find_all("a", "product-item__link")
+    # y = len(product_cards)
+    # print(y)
+    # product_dict={}
+    # # for product in product_cards:
+    # #     product_other = product.find_all(By.XPATH, "(//div[@class='product-item__wrap'])")
+    # #     y = len(product_other)
+    # #     print(y)
+    #     # for q in range (y):
+    #     #     product_other[q] = product.find_all("td", class_="table-col introtext-col")[q]
+    #     #     print(product_other[0].text.strip())
 
 
 def get_janga_prod():
     for g in range (8):
+        g+=1
         with open(f"html/page_source_{g}_jung-a-creation.html") as file:
             src = file.read()
 
@@ -141,7 +149,7 @@ def get_janga_prod():
                         "product_img": product_img
                     }
 
-                    with open(f"html/page_source_{g}_jung-a-creation.html", "w") as file:
+                    with open(f"json/page_source_{g}_jung-a-creation.json", "w") as file:
                         json.dump(product_dict, file, indent=4, ensure_ascii=False)
                     break
             elif y == 3:
@@ -200,7 +208,7 @@ def get_janga_prod():
                         "product_img": product_img
                     }
 
-                    with open(f"html/page_source_{g}_jung-a-creation.html", "w") as file:
+                    with open(f"json/page_source_{g}_jung-a-creation.json", "w") as file:
                         json.dump(product_dict, file, indent=4, ensure_ascii=False)
                     break
             else:
@@ -261,7 +269,7 @@ def get_janga_prod():
                         "product_img": product_img
                     }
 
-                    with open(f"html/page_source_{g}_jung-a-creation.html", "w") as file:
+                    with open(f"json/page_source_{g}_jung-a-creation.json", "w") as file:
                         json.dump(product_dict, file, indent=4, ensure_ascii=False)
                     break
 
